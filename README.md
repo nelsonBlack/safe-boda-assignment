@@ -24,7 +24,7 @@ Application was buit with
 $ npm install
 ```
 
-## Running the app
+## Running the app in Container
 
 ```bash
 # development
@@ -43,7 +43,16 @@ Go to endpoint named /staffs/login in swagger and execute /click try out i.3 cal
 You will get JWT token in response , use that token in all other endpoints 
 
 ```
+## Running the app in local with by connecting database container image to local run app
 
+```bash
+ run npm install
+Go to .env file and change line 2 from POSTGRES_HOST=postgres-db to POSTGRES_HOST=localhost
+docker-compose up --build db
+
+After db container boots run :- npm run start:local
+
+```
 ## Test
 
 ```bash
