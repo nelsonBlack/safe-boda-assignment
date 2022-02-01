@@ -15,7 +15,7 @@ Application was buit with
 
 
 
-![2](https://user-images.githubusercontent.com/13407936/151975228-46109ea7-1a36-43a4-a53f-bd074d63c1cb.gif)
+
 
 
 
@@ -38,6 +38,8 @@ docker-compose up --build
 ```bash
 # 
 Navigate to http://localhost:3000/api/
+
+![2](https://user-images.githubusercontent.com/13407936/151975228-46109ea7-1a36-43a4-a53f-bd074d63c1cb.gif)
 
 Go to endpoint named /staffs/login in swagger and execute /click try out i.3 call login endpoint
 
