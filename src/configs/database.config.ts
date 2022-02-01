@@ -16,7 +16,7 @@ export const DatabaseConfig = {
   username: process.env.DB_USERNAME || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.POSTGRES_DB || 'safeboda_db',
-  synchronize: true,
+  synchronize: false,
   bigNumberStrings: false,
   migrationsRun: false,
   entities: ['dist/**/*.entity{.ts,.js}'],
