@@ -42,6 +42,13 @@ Go to endpoint named /staffs/login in swagger and execute /click try out i.3 cal
 
 You will get JWT token in response , use that token in all other endpoints 
 
+NB App auto creates stafff/admin with the followng details
+[Code link to where app auto creates admin](https://github.com/nelsonBlack/safe-boda-assignment/blob/f5bebcba2c906becaa64516fa0dd9d75dbd329f1/src/modules/staffs/staffs.service.ts#L16)
+
+ email: `test@mail.comm`,
+  password: 'pass', 
+
+
 ```
 ## Running the app in local with by connecting database container image to local run app
 
