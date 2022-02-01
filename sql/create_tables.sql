@@ -1,4 +1,7 @@
    
+DROP DATABASE IF EXISTS safeboda_db;    
+
+CREATE DATABASE safeboda_db;    
 DROP TABLE IF EXISTS driver;
 CREATE TABLE driver(
     id integer PRIMARY KEY,
