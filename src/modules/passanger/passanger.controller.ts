@@ -1,54 +1,50 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { PassangerService } from './passanger.service';
 import { CreatePassangerDto } from './dto/create-passanger.dto';
-import { UpdatePassangerDto } from './dto/update-passanger.dto';
 import { Passanger } from './entities/passanger.entity';
-import { ApiOperation } from '@nestjs/swagger';
-
+import { ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../common/auth/jwt-auth.guard';
 @Controller('passanger')
+@ApiBearerAuth('JWT')
+@UseGuards(JwtAuthGuard)
 export class PassangerController {
   constructor(private readonly passangerService: PassangerService) {}
 
   @Post()
+  @ApiBody({
+    type: CreatePassangerDto,
+    description: 'driver data',
+    examples: {
+      a: {
+        value: {
+          firstName: 'Brown',
+          lastName: 'Pink',
+          email: 'driver@mail.com',
+          phone: '+380741234567',
+          middleName: 'Blue',
+          password: 'pass',
+        } as CreatePassangerDto,
+      },
+    },
+  })
   @ApiOperation({ summary: 'Create passanger' })
   async create(
     @Body() createPassangerDto: CreatePassangerDto,
   ): Promise<Passanger> {
-    return await this.passangerService.create(createPassangerDto);
+    try {
+      return await this.passangerService.create(createPassangerDto);
+    } catch (error) {
+      return error?.message;
+    }
   }
 
   @Get()
   @ApiOperation({ summary: 'Get all passangers' })
-  async findAll(@Body() limit: number) {
-    return await this.passangerService.findAll(limit);
-  }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Get one passanger by id' })
-  async findOne(@Param('id') id: string) {
-    return await this.passangerService.findOne(+id);
-  }
-
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update passanger' })
-  async update(
-    @Param('id') id: string,
-    @Body() updatePassangerDto: UpdatePassangerDto,
-  ) {
-    return await this.passangerService.update(+id, updatePassangerDto);
-  }
-
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete passanger' })
-  async remove(@Param('id') id: string) {
-    return await this.passangerService.delete(+id);
+  async getAllPassangers(): Promise<Passanger[]> {
+    try {
+      return await this.passangerService.getAllPassangers();
+    } catch (error) {
+      return error?.message;
+    }
   }
 }

@@ -1,14 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { CreateDriverDto } from '../../driver/dto/create-driver.dto';
 
-export class CreatePassangerDto {
-  @ApiProperty()
-  firstName: string;
-  @ApiProperty()
-  middleName: string;
-  @ApiProperty()
-  lastName: string;
-  @ApiProperty()
-  email: string;
-  @ApiProperty()
-  password: string;
-}
+export class CreatePassangerDto extends CreateDriverDto {}

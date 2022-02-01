@@ -5,6 +5,7 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/exceptions/http-exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,7 +13,10 @@ async function bootstrap() {
     .setTitle('Safeboda api')
     .setDescription('The safeboda API description')
     .setVersion('1.0')
-    .addTag('cats')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'JWT',
+    )
     .build();
   const options: SwaggerDocumentOptions = {
     deepScanRoutes: true,
@@ -20,6 +24,7 @@ async function bootstrap() {
   };
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
+  app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(3000);
 }
 bootstrap();

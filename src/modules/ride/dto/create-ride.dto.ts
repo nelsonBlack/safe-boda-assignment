@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateRideDto {
   @ApiProperty()
@@ -8,14 +8,18 @@ export class CreateRideDto {
   passangerId?: number;
   @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   pickupLat: number;
   @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   pickupLong: number;
   @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   destinationLat: number;
   @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   destinationLong: number;
 }

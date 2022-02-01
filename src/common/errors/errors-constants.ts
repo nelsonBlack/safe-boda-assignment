@@ -9,10 +9,19 @@ export const STAFF_EXCEPTIONS = {
   incorrectLoginData: `Login email or password is incorrect`,
   notExistUpdate: `Sorry, the system user you are trying to update does not exist`,
   existsEmail: `Sorry, the email has already been taken`,
+  existsPhone: `Sorry, the phone has already been taken`,
   invalidData: `Sorry, system user data is invalid.`,
   userNotFound: `Sorry, User with the credentials not found in the system. Contact Company Admin`,
 };
 
 export const RIDE_EXCEPTIONS = {
   ongoingRide: `Sorry, the driver or passanger has ongoing ride`,
+  noOnGongRide: `Sorry, ongoing ride not found in system`,
+};
+
+export const USER_EXCEPTIONS = {
+  existsEmail: `Sorry, the email has already been taken`,
+  existsPhone: `Sorry, the phone has already been taken`,
+  invalidData: `Sorry, system user data is invalid.`,
+  userNotFound: `Sorry, Driver was not found in the system.`,
 };

@@ -24,7 +24,7 @@ export class AuthService {
   signToken(staff: Staff) {
     const response: Partial<LoginResponseDto> = {
       ...staff,
-      token: this.jwtService.sign(staff),
+      token: this.jwtService.sign({ staff }),
     };
     return response;
   }

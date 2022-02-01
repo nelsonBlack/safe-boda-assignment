@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { assignObjectToClass } from '../../common/helpers/object-to-class.helper';
-import { Driver } from '../driver/entities/driver.entity';
+import { USER_EXCEPTIONS } from '../../common/errors/errors-constants';
+import { ExistsException } from '../../common/exceptions/exists-data-exception';
+import { hashPassword } from '../../common/helpers/hash-password';
 import { CreatePassangerDto } from './dto/create-passanger.dto';
-import { UpdatePassangerDto } from './dto/update-passanger.dto';
 import { Passanger } from './entities/passanger.entity';
 
 @Injectable()
@@ -14,34 +14,24 @@ export class PassangerService {
     public readonly passangerRepository: Repository<Passanger>,
   ) {}
   async create(createPassangerDto: CreatePassangerDto): Promise<Passanger> {
-    const newPassanger = new Passanger();
-
-    return await this.passangerRepository.save(
-      assignObjectToClass(createPassangerDto, newPassanger),
-    );
-  }
-
-  async findAll(limit: number): Promise<Passanger[]> {
-    return await this.passangerRepository.find({
-      take: limit,
+    const phoneExists = await this.passangerRepository.count({
+      phone: createPassangerDto.phone,
     });
+    const emailExists = await this.passangerRepository.count({
+      phone: createPassangerDto.phone,
+    });
+    if (phoneExists >= 1)
+      throw new ExistsException(USER_EXCEPTIONS.existsPhone);
+    if (emailExists >= 1)
+      throw new ExistsException(USER_EXCEPTIONS.existsEmail);
+    const newPassanger: Passanger = {
+      ...createPassangerDto,
+    } as Passanger;
+    newPassanger.password = hashPassword(newPassanger.password);
+    return await this.passangerRepository.save(newPassanger);
   }
 
-  async findOne(id: number): Promise<Passanger> {
-    return await this.passangerRepository.findOne(id);
-  }
-
-  async delete(id: number) {
-    return await this.passangerRepository.delete(id);
-  }
-
-  async update(
-    id: number,
-    updatePassangerDto: UpdatePassangerDto,
-  ): Promise<Driver> {
-    const toUpdate = await this.passangerRepository.findOne(id);
-    return this.passangerRepository.save(
-      assignObjectToClass(updatePassangerDto, toUpdate),
-    );
+  async getAllPassangers(): Promise<Passanger[]> {
+    return await this.passangerRepository.find();
   }
 }

@@ -15,28 +15,39 @@ export class Ride {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   driverId: number;
 
-  @Column({
-    type: 'point',
-    nullable: true,
-    transformer: {
-      from: (v) => v, // good as-is
-      to: (v) => `${v.x},${v.y}`, // { x: 1, y: 2 } -> '1,2'
-    },
-  })
-  public pickup: Point;
+  @Column({ nullable: false })
+  passangerId: number;
 
-  @Column({
-    type: 'point',
-    nullable: true,
-    transformer: {
-      from: (v) => v, // good as-is
-      to: (v) => `${v.x},${v.y}`, // { x: 1, y: 2 } -> '1,2'
-    },
+  @Column('decimal', {
+    nullable: false,
+    precision: 15,
+    scale: 2,
   })
-  public destination: Point;
+  public pickupLat: number;
+
+  @Column('decimal', {
+    nullable: false,
+    precision: 15,
+    scale: 2,
+  })
+  public pickupLong: number;
+
+  @Column('decimal', {
+    nullable: false,
+    precision: 15,
+    scale: 2,
+  })
+  public destinationLong: number;
+
+  @Column('decimal', {
+    nullable: false,
+    precision: 15,
+    scale: 2,
+  })
+  public destinationLat: number;
 
   @Column({
     nullable: true,
@@ -48,12 +59,12 @@ export class Ride {
   @ManyToOne(() => Driver, (driver) => driver.rides, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'driverId' })
+  @JoinColumn({ name: 'driverId', referencedColumnName: 'id' })
   driver: Driver;
 
   @ManyToOne(() => Passanger, (passanger) => passanger.rides, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'passangerId' })
+  @JoinColumn({ name: 'passangerId', referencedColumnName: 'id' })
   passanger: Passanger;
 }

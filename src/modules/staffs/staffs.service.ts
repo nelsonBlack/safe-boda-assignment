@@ -12,13 +12,34 @@ import { LoginResponseDto } from './dto/login-response.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { AuthService } from '../../common/auth/auth.service';
+import { hashPassword } from '../../common/helpers/hash-password';
+const StaffSeed = {
+  firstName: 'Damilola',
+  middleName: 'John',
+  lastName: `peter`,
+  email: `test@mail.comm`,
+  password: 'pass',
+  phone: '08023456789',
+} as Staff;
 @Injectable()
 export class StaffsService {
   constructor(
     @InjectRepository(Staff)
     private readonly staffRepository: Repository<Staff>,
     private readonly authService: AuthService,
-  ) {}
+  ) {
+    this.saveStaff();
+  }
+
+  async saveStaff() {
+    const staff = await this.staffRepository.findOne({
+      where: { email: StaffSeed.email },
+    });
+    if (!staff) {
+      StaffSeed.password = hashPassword(StaffSeed.password);
+      await this.staffRepository.save(StaffSeed);
+    }
+  }
 
   async loginStaff(
     loginStaffDto: LoginStaffDto,

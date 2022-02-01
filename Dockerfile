@@ -14,8 +14,12 @@ COPY ./src/migrations /app/src/migrations/
 # Then install the NPM module
 RUN npm install -f
 
+
+
 # Copy current directory to APP folder
 COPY . /app/
 
 EXPOSE 3000
 CMD ["npm", "run", "start:dev"]
+
+

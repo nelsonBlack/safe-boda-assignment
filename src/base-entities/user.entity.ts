@@ -1,17 +1,16 @@
-import { Exclude } from 'class-transformer';
-import { IsEmail } from 'class-validator';
+import { IsEmail, MaxLength, MinLength } from 'class-validator';
 import {
   BeforeInsert,
-  BeforeUpdate,
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
-  UpdateDateColumn,
   BaseEntity,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 @Entity()
 export class UserBase extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
@@ -35,21 +34,28 @@ export class UserBase extends BaseEntity {
   })
   lastName: string;
 
+  @MinLength(6)
+  @MaxLength(15)
+  @Column({
+    nullable: false,
+  })
+  phone: string;
+
   @Column('varchar', {
     nullable: false,
     length: 191,
+    unique: true,
   })
   @IsEmail()
   email: string;
 
-  @Exclude()
-  @Column('varchar', {
-    select: false,
-    nullable: true,
-    length: 128,
+  @MinLength(2)
+  @Column({
+    nullable: false,
+    select: false
   })
   password: string;
-  @BeforeUpdate()
+
   @BeforeInsert()
   async hashPassword() {
     if (this.password) {
@@ -66,12 +72,12 @@ export class UserBase extends BaseEntity {
   @Column('timestamptz', { nullable: true })
   otpTime: string;
 
-/*   @CreateDateColumn({ nullable: true, type: 'timestamp' })
+  @CreateDateColumn({ nullable: true, type: 'timestamp' })
   createdAt: string;
 
   @UpdateDateColumn({ nullable: true, type: 'timestamp' })
   updatedAt: string;
 
   @DeleteDateColumn({ nullable: true, type: 'timestamp', name: 'deletedAt' })
-  deletedAt: string; */
+  deletedAt: string;
 }

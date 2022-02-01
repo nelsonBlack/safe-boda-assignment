@@ -1,5 +1,5 @@
-export const assignObjectToClass = (object: any, className: any) => {
-  Object.keys(object).forEach(function (key) {
+export const assignObjectToClass = (className: any, object: any) => {
+  Object.keys(className).forEach(function (key) {
     if (key in className) {
       className[key] = object[key];
     }

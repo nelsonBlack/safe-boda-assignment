@@ -2,7 +2,7 @@
 /dist
 /node_modules
 /pgadmin-data
-/pgdata
+/pgdata/*
 # Logs
 logs
 *.log

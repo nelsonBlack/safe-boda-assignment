@@ -4,9 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './common/auth/auth.module';
 import DatabaseConfig from './configs/database.config';
-import { ChargesModule } from './modules/charges/charges.module';
 import { DriverModule } from './modules/driver/driver.module';
-import { MortoBikesModule } from './modules/morto-bikes/morto-bikes.module';
+import { PassangerModule } from './modules/passanger/passanger.module';
+import { RideModule } from './modules/ride/ride.module';
 import { StaffsModule } from './modules/staffs/staffs.module';
 
 @Module({
@@ -14,16 +14,11 @@ import { StaffsModule } from './modules/staffs/staffs.module';
   providers: [AppService],
   imports: [
     TypeOrmModule.forRoot(DatabaseConfig),
-    //ChargesModule,
-    //  MortoBikesModule,
-    // RidersModule,
     DriverModule,
     StaffsModule,
     AuthModule,
-  //  RideModule,
-    /*  DriverModule,
-    PassangerModule, */
-    // TripsModule,
+    PassangerModule,
+    RideModule,
   ],
 })
 export class AppModule {}
